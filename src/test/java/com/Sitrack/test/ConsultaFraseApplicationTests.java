@@ -21,7 +21,7 @@ class ConsultaFraseApplicationTests {
 		String textoabuscar = "Egipto";
 		DemoService demoservice = new DemoService();
 		Integer count = demoservice.consultar(Url, textoabuscar);
-		Assertions.assertEquals(76, count);
+		Assertions.assertEquals(75, count);
 	}
 
 	@Test

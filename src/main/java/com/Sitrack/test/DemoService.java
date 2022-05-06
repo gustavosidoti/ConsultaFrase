@@ -10,8 +10,9 @@ import org.springframework.util.StringUtils;
 @Service
 public class DemoService {
 
-    public Integer consultar(String url, String texto) {
-        if (StringUtils.hasLength(url) && StringUtils.hasLength(texto)) {
+    public int consultar(String url, String fraseaBuscar) {
+        if (StringUtils.hasLength(url) && StringUtils.hasLength(fraseaBuscar)) {
+
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
@@ -21,33 +22,34 @@ public class DemoService {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                 // guardamos el contenido de toda la pagina en un string
                 String webPage = response.body();
-                // buscarmos una palabra
-                String[] words = webPage.split(texto);
-
-                String[] cortado = texto.split(" ");
+                // buscamos una palabra
+                String[] words = webPage.split(fraseaBuscar);
 
                 //contamos
-                Integer count = words.length;
-                // mostramos la frase
-                String message = String.format("cantidad que se repite la palabra %s, es: %s ", texto, count);
+                Integer count = words.length-1;
+                //mostramos la frase
+                String message = String.format("cantidad que se repite la palabra %s, es: %s ", fraseaBuscar, count);
                 System.out.println(message);
 
-                // contamos las veces que se repite cada palabra
-                for (String lenguaje: cortado) {
+                // convertimos a Array los elementos de cada string
+                String[] fraseCortada = fraseaBuscar.split(" ");
 
-                    String[] cadaPalabra = webPage.split(lenguaje);
-                    Integer veces = cadaPalabra.length;
 
-                    System.out.println(lenguaje+" Se repite:"+ veces+" veces");
+                // contamos las veces que se repite cada palabra recorriendo los array
+                for (String palabraFrase: fraseCortada) {
+
+                    String[] cadaPalabra = webPage.split(palabraFrase);
+                    Integer veces = cadaPalabra.length-1;
+                    System.out.println(palabraFrase+" Se repite:"+ veces +" veces");
                 }
 
+                return 1;
 
-                return count;
             }catch (IOException | InterruptedException e) {
 
             }
         } else {
-            String message = String.format("Valores ingrsador erroneos url: %s, texto: %s ", url, texto);
+            String message = String.format("Valores ingrsador erroneos url: %s, texto: %s ", url, fraseaBuscar);
             System.out.println(message);
         }
 

@@ -47,7 +47,7 @@ public class ConsultaFraseApplication {
 
 
 		// Llamamos a la función consultar de la clase DemoService
-		Integer cuenta = demoservice.consultar( url, palab);
+		Integer result = demoservice.consultar( url, palab);
 
 	// fin
 	}
